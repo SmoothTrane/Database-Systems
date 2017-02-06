@@ -1,3 +1,7 @@
+-- Gary Coltrane 
+-- 2/5/17
+-- Lab 3: Getting Started With SQL Queries
+
 -- 1 
 SELECT ordNumber, totalUSD
 FROM  Orders;
@@ -19,25 +23,27 @@ WHERE city = 'Duluth';
 -- 5
 SELECT name
 FROM Agents
-WHERE city<> 'New York' and city <> 'Duluth'
+WHERE city<> 'New York' and city <> 'Duluth';
 --6 
 
-SELECT * FROM PRODUCTS WHERE city<> 'Dallas' and city <> 'Duluth' and priceUSD > 1.00;
+SELECT * 
+FROM PRODUCTS 
+WHERE city<> 'Dallas' and city <> 'Duluth' and priceUSD >=  1.00;
 
 
 
 --7
 SELECT * FROM ORDERS
-WHERE month = 'Feb' or month = 'May'
+WHERE month = 'Feb' or month = 'May';
 
 --8 
 
 SELECT * FROM ORDERS
-WHERE totalUSD > 600;
+WHERE month = 'Feb' AND totalUSD >= 600;
 
 
 --9
  
  SELECT * FROM ORDERS
- WHERE cid = "C005"
- 
+ WHERE cid = "C005";
+
