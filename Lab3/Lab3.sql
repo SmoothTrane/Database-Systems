@@ -45,5 +45,5 @@ WHERE month = 'Feb' AND totalUSD >= 600;
 --9
  
  SELECT * FROM ORDERS
- WHERE cid = "C005";
+ WHERE cid = 'C005';
 
