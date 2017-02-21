@@ -28,7 +28,7 @@ where customers.city = 'Kyoto';
 3. Show	the	names	of	customers	who	have	never	placed	an	order.	Use	a	subquery.
 */
 
-3. select name from customers where customers.cid NOT in(select orders.cid from orders);
+select name from customers where customers.cid NOT in(select orders.cid from orders);
 
 /*
 4. Show	the	names	of	customers	who	have	never	placed	an	order.	Use	an	outer	join.
@@ -36,7 +36,7 @@ where customers.city = 'Kyoto';
 
 
 
-4. select name from customers left join orders on customers.cid = orders.cid where orders.cid is null;
+select name from customers left join orders on customers.cid = orders.cid where orders.cid is null;
 
 
 /*
@@ -53,7 +53,7 @@ of	the	shared	city,	regardless	of	whether	or	not	the	customer	has	ever	placed	an
 with	that	agent.
 */
 
-6.
+
 select customers.name as "Customer Name",
 agents.name as "Agent Name",
 agents.city as "Shared City"
@@ -64,5 +64,14 @@ from customers inner join agents on customers.city = agents.city;
 7. Show	the	name	and	city	of	customers	who	live	in	the	city	that	makes	the	fewest
 different	kinds	of	products.	(Hint:	Use	count	and	group	by	on	the	Products	table.)
 
-s
+
 */
+
+SELECT name, city
+FROM customers
+where city IN (SELECT city
+                FROM products
+                group by city
+                order by COUNT(*) ASC
+                LIMIT 1
+              );
