@@ -35,11 +35,33 @@ order by orders.totalUSD  ASC;
 
 -- 4
 
+select customers.name , sum(COALESCE(orders.qty, 0)) as "Orders Total"
+from orders, customers
+where customers.cid = orders.cid
+group by customers.name
+order by customers.name ASC;
 
 
 -- 5
 
+
+select customers.name, agents.name, products.name
+from orders
+	inner join customers  on orders.cid = customers.cid
+	inner join agents  on orders.aid = agents.aid
+	inner join products on orders.pid = products.pid
+where agents.city = 'Newark'
+
+
+
 --6
+
+select
+from (select orders.*, orders.qty*products.priceUSD*(1-(discount/100)) as accurateUSD
+		from orders
+		inner join products  on orders.pid = products.pid
+		inner join customers  on orders.cid = customers.cid) as valueUSD
+where accurateUSD != totalUSD;
 
 /*
 -- 7
