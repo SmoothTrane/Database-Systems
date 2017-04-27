@@ -70,7 +70,7 @@ primary key BreedId
 CREATE TABLE Purchases(
   PurchaseID   char(4) not null,
   CustomerID   char(4) not null,
-  Dog_ID        char(4) not null,
+  DogID        char(4) not null,
   PriceUSD      integer,
   PurchaseDate,  date
   primary key PurchaseID,
@@ -90,13 +90,15 @@ CREATE TABLE DogPurchases(
 
 
 -- CREATE OR REPLACE FUNCTION get_breeders_dogs (char(4), REFCURSOR) returns refcursor as
+-- SELECT ALL THE DOGS THAT WAS BBOUGHT BY A SPECIFIC BREEDER
 -- $$
 -- DECLARE
 --   breederID   char(4)     := $1
 --   results     REFCURSOR   := $2
 -- BEGIN
 --     OPEN results foreign
---     SELECT breederID, dogId, dogs.name from Dogs
+--     SELECT  dogId, purchases.name from Purchases inner join dogs where breederID =  ;
+-- return RESULTS
 --
 
 --CREATE OR REPLACE FUNCTION get dog age
@@ -112,4 +114,12 @@ CREATE TABLE DogPurchases(
 
 -- VIEWS SELECT THE  dog with the most children, this is for people that are interested in the lineage of a specfic dog
 
--- VIEWS
+--VIEW CURRENT PUPPIES THAT ARE FOR SALE BY WEIGHT
+
+CREATE VIEW CurrentDogs  AS
+SELECT name, dob, gender, weightlbs,  from dogs inner join adultdogs on dogs.dogid = puppies.dogid
+where dogs.forsale = "true"
+order by desc;
+-- view the trainer that has trained the most expensive dog
+CREATE VIEW ExpensiveTrainer as
+SELECT name from people inner join trainers on trainers.peopleid = people.peopleid inner join dogs on dogs.trainerid = trainers.trainerid inner join purchases on purchases.dogid = dogs.dogid where  purchases.priceusd = (select max(priceusd) from purchases);
