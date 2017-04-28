@@ -121,6 +121,7 @@ DECLARE
 $$ language plpgsql
 
 CREATE OR REPLACE FUNCTION update_puppy_status()
+RETURNS TRIGGER AS
 $$
 
 
@@ -134,5 +135,17 @@ BEGIN
 
 
 -- VIEWS SELECT THE  dog with the most children, this is for people that are interested in the lineage of a specfic dog
+
+
+
+-- CREATE VIEW CurrentDogs  AS
+-- SELECT name, dob, gender, weightlbs,  from dogs inner join adultdogs on dogs.dogid = puppies.dogid
+-- where dogs.forsale = "true"
+-- order by desc;
+-- -- view the trainer that has trained the most expensive dog
+
+
+-- CREATE VIEW ExpensiveTrainer as
+-- SELECT name from people inner join trainers on trainers.peopleid = people.peopleid inner join dogs on dogs.trainerid = trainers.trainerid inner join purchases on purchases.dogid = dogs.dogid where  purchases.priceusd = (select max(priceusd) from purchases);
 
 -- VIEWS
