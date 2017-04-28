@@ -70,7 +70,7 @@ primary key BreedId
 CREATE TABLE Purchases(
   PurchaseID   char(4) not null,
   CustomerID   char(4) not null,
-  Dog_ID        char(4) not null,
+  DogID        char(4) not null,
   PriceUSD      integer,
   PurchaseDate,  date
   primary key PurchaseID,
@@ -115,20 +115,39 @@ DECLARE
   TrainerID2   char(4)        := $2
   results      REFCURSOR      := $3
   BEGIN
-  open results trainer
+  SELECT name from breeders where trainer.breederid = trainerID1 inner join dogs on trainerid1 = dogs.trainerid inner join purchases on dogs.dogid = purchaes.dogid   union
+  (select name from breeders where breeder.breederid = trainerid2 inner join dogs on trainerid2 = dogs.trainerid inner join purchases on dogs.dogid = purchaes.dogid) order by purchases.priceusd;
 
   END
-$$ language plpgsql
+$$
+language plpgsql
 
 CREATE OR REPLACE FUNCTION update_puppy_status()
 RETURNS TRIGGER AS
 $$
 
+CREATE OR REPLACE FUNCTION puppyAge(char(8))
+returns interval as
+$$
+declare
+puppyID := char(8)
+birthday date := (select dogs.dob from dogs inner join puppy on dogs.dogid = puppy.dogid where dogs.dogid = puppy.dogid);
+BEGIN
+return age(birthday)
+ end
+ $$
+ language plpgsql;
+
+
+CREATE OR REPLACE FUNCTION most_children(adultdogid char(8))
+returns refcursor as
+$$
+declare
 
 BEGIN
- end
-
-
+end
+$$
+language plpgsql;
 
 
 -- POSSIBLE TRIGGERS: WHENEVER A NEW  PUPPY IS SOLD, automatically set, forSALE to be SOLD
