@@ -92,17 +92,40 @@ CREATE TABLE DogPurchases(
 -- CREATE OR REPLACE FUNCTION get_breeders_dogs (char(4), REFCURSOR) returns refcursor as
 -- $$
 -- DECLARE
---   breederID   char(4)     := $1
+--   breeder_ID   char(4)     := $1
 --   results     REFCURSOR   := $2
+
 -- BEGIN
---     OPEN results foreign
---     SELECT breederID, dogId, dogs.name from Dogs
+--     OPEN results for
+--     SELECT breederID, breederName from breeder  inner join on dogs  where  breeder_id = dogs.breederid
+-- return results;
+--end;
+-- $$
+--language plpgsql;
 --
 
 --CREATE OR REPLACE FUNCTION get dog age
 
 -- create a function that compares two trainers, and returns which trainer has trained the most expensive dogs
 
+CREATE OR REPLACE FUNCTION most_expensive_dogs (char(4), char(4), REFCURSOR) returns refcursor as
+$$
+DECLARE
+  TrainerID1   char(4)        := $1
+  TrainerID2   char(4)        := $2
+  results      REFCURSOR      := $3
+  BEGIN
+  open results trainer
+
+  END
+$$ language plpgsql
+
+CREATE OR REPLACE FUNCTION update_puppy_status()
+$$
+
+
+BEGIN
+ end
 
 
 
