@@ -131,7 +131,7 @@ BEGIN
 
 
 
--- POSSIBLE TRIGGERS: WHENEVER A NEW  PUPPY IS SOLD, automatically set, forSALE to be SOLD
+-- POSSIBLE TRIGGERS: WHENEVER A NEW  PUPPY IS PURCHASED, automatically set, forSALE to be SOLD
 
 
 -- VIEWS SELECT THE  dog with the most children, this is for people that are interested in the lineage of a specfic dog
@@ -147,5 +147,5 @@ BEGIN
 
 -- CREATE VIEW ExpensiveTrainer as
 -- SELECT name from people inner join trainers on trainers.peopleid = people.peopleid inner join dogs on dogs.trainerid = trainers.trainerid inner join purchases on purchases.dogid = dogs.dogid where  purchases.priceusd = (select max(priceusd) from purchases);
-
+i
 -- VIEWS
