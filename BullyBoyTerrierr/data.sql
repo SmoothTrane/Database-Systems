@@ -330,6 +330,8 @@ WHERE	dogs.breedid= 'BR000003')	as decimal(5,2))
 
 
 
+-- dogs that havent received a shot within the year
+
 
 -- Puppies that are trained by people who have trained a lot of dogs
 
