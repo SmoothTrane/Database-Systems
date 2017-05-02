@@ -1,3 +1,8 @@
+/*
+Gary Coltrane
+3.18.17 DATABASE MGNT LAB 10
+
+
 ----------------------------------------------------------------------------------------
 -- Courses and Prerequisites
 -- by Alan G. Labouseur
@@ -68,7 +73,7 @@ order by courseNum DESC;
 
 /*
 1. . func1on	PreReqsFor(courseNum)	-	Returns	the	immediate	prerequisites	for	the
-passed-in	course	number.	
+passed-in	course	number.
 */
 create or replace function PreReqsFor(int, REFCURSOR) returns refcursor as
 $$
