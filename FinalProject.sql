@@ -3,10 +3,8 @@ CREATE TABLE People(
   FirstName text not null,
   LastName text not null,
   StreetAddress text not null,
-
   primary key (PersonId)
 );
--- PersonID - > FirstName LastName StreetAddress
 
 CREATE TABLE Trainers(
   PersonID char(8) not null unique,
@@ -15,7 +13,6 @@ CREATE TABLE Trainers(
   foreign key (PersonId) references People(PersonID)
 );
 
--- PersonID -> Experience
 
 CREATE TABLE Breeders(
 PersonID char(8) not null unique,
@@ -24,7 +21,6 @@ primary key (PersonID),
 foreign key(PersonId) references people(PersonID)
 );
 
--- PersonID -> Experience
 CREATE TABLE Customers(
   PersonID char(8) not null unique,
   PhoneNumber text,
@@ -32,7 +28,6 @@ CREATE TABLE Customers(
   foreign key (PersonID) references people(PersonID)
 );
 
--- PersonID -> PhoneNumber
 CREATE Table Breeds(
     BreedID char(8) not null unique,
     Name text,
@@ -54,7 +49,6 @@ CREATE TABLE Dogs(
   foreign key (TrainerID) references Trainers(PersonID),
   foreign key (BreedID) references Breeds(BreedID)
 );
---DogID - > Name, BreederID, BreedID, TrainerID, DOB, WeightLBS
   CREATE TABLE AdultDogs(
     DogID char(8) not null,
     PurchaseFeeUSD  integer,
@@ -62,7 +56,6 @@ CREATE TABLE Dogs(
     primary key (DogID),
     foreign key (DogID) references Dogs(DogID)
   );
---DogID - > PurchaseFeeUSD, StudFeeUSD
   CREATE TABLE Puppies(
     DogID char(8) not null,
     PurchaseFeeUSD  integer,
@@ -70,7 +63,6 @@ CREATE TABLE Dogs(
     foreign key (DogID) references Dogs(DogId)
   );
 
---DogiD - > PurchaseFeeUSD,
 
 
 
@@ -85,7 +77,6 @@ CREATE TABLE Purchases(
   foreign key (CustomerID) references Customers(PersonID),
   foreign key (DogID) references Dogs(DogId)
 );
---PurchaseID -> CustomerID, DogID, TotalPriceUSD, PurchaseDate, PurchaseType
 
 CREATE TABLE Shots(
   ShotID  char(8) not null unique,
@@ -102,6 +93,7 @@ CREATE TABLE DogShots(
   foreign key (ShotID) references Shots (ShotID),
   foreign key (DogID) references Dogs (DogID)
 );
+
 
 INSERT INTO PEOPLE (PersonID, FirstName, LastName, StreetAddress) VALUES
 ('P0000001', 'Byron', 'Hardaway', '123 Cherry Block'), ('P0000002', 'Gary', 'Coltrane', '456 Ave'), ('P0000003', 'Bryant', 'Hardaway', '1800 Street'), ('P0000004', 'Bryce', 'Hardaway', '123 Block Street'),('P0000005', 'Abdul', 'Jones', '777 Ali Place'),
@@ -206,21 +198,7 @@ language plpgsql;
 select get_breeders_dogs('P0000001','results1');
 fetch all in results1;
 
-CREATE OR REPLACE FUNCTION get_dog_shots (char(8), REFCURSOR) returns refcursor as
-$$
- DECLARE
-   DoggyID   char(8)     := $1;
-   results     REFCURSOR   := $2;
- BEGIN
-     OPEN results for
-     select shots.name as ShotName, dogshots.shotdate from shots inner join dogshots on shots.shotid = dogshots.shotid
-     where dogshots.dogid = DoggyID;
- return results;
-end;
- $$
-language plpgsql;
-select get_dog_shots('D0000001','results2');
-fetch all in results2;
+
 
 
 CREATE OR REPLACE FUNCTION getPuppyAge(char(8))
@@ -244,15 +222,16 @@ CREATE OR REPLACE FUNCTION setTrainerAsIntermediate()
  BEGIN
    if new.trainerid is not null then
      update trainers
-       set Experience = 'IMMEDIATE'
-       where trainer.personid = new.personid;
+       set Experience = 'INTERMEDIATE'
+       where trainers.personid = new.trainerid and trainers.experience = 'BEGINNER';
    end if;
    return new;
  end;
  $$ language plpgsql;
 
+
 -- TRIGGER
-Create Trigger soldDog
+Create Trigger IntermediateTrainer
 after INSERT on dogs
 for each row
 execute procedure setTrainerAsIntermediate();
